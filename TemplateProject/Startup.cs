@@ -48,6 +48,7 @@ namespace TemplateProject
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
+                endpoints.MapWebService();
             });
             SeedData.SeedDatabase(context);
         }
