@@ -29,6 +29,8 @@ namespace TemplateProject
                 opts.UseSqlServer(Configuration["ConnectionStrings:ProductConnection"]);
                 opts.EnableSensitiveDataLogging(true);
             });
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +50,8 @@ namespace TemplateProject
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
-                endpoints.MapWebService();
+                //endpoints.MapWebService();
+                endpoints.MapControllers();
             });
             SeedData.SeedDatabase(context);
         }
