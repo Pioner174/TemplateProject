@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using TemplateProject.Models;
+using System.Threading.Tasks;
+
 
 namespace TemplateProject.Controllers
 {
@@ -17,37 +19,50 @@ namespace TemplateProject.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IAsyncEnumerable<Product> GetProducts()
         {
             return _dataContext.Products;
             
         }
         [HttpGet("{id}")]
-        public Product GetProduct(long id, [FromServices] ILogger<ProductsController> logger)
+        public async Task<IActionResult> GetProduct(long id, [FromServices] ILogger<ProductsController> logger)
         {
             logger.LogDebug("GetProduct Action Invoked");
-            return _dataContext.Products.Find(id);
+            Product p = await _dataContext.Products.FindAsync(id);
+            if(p == null)
+            {
+                return NotFound();
+            }
+            return Ok(p);
         }
 
         [HttpPost]
-        public void SaveProduct([FromBody] Product product)
+        public async Task<IActionResult> SaveProduct([FromBody] ProductBindingTarget target)
         {
-            _dataContext.Products.Add(product);
-            _dataContext.SaveChanges();
+            Product p = target.ToProduct();
+            await _dataContext.Products.AddAsync(p);
+            await _dataContext.SaveChangesAsync();
+            return Ok(p);
         }
 
         [HttpPut]
-        public void UpdateProduct([FromBody] Product product)
+        public async Task UpdateProduct([FromBody] Product product)
         {
             _dataContext.Products.Update(product);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteProduct(long id)
+        public async Task DeleteProduct(long id)
         {
             _dataContext.Products.Remove(new Product() { ProductId = id });
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
+        }
+
+        [HttpGet("redirect")]
+        public IActionResult Redirect()
+        {
+            return RedirectToAction(nameof(GetProducts), new { id = 1 });
         }
     }
 }
