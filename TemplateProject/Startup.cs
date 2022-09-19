@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using TemplateProject.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TemplateProject
 {
@@ -31,6 +32,10 @@ namespace TemplateProject
             });
 
             services.AddControllers();
+            services.Configure<JsonOptions>(opts =>
+            {
+                opts.JsonSerializerOptions.IgnoreNullValues = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

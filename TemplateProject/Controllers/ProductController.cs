@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace TemplateProject.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
@@ -37,7 +38,7 @@ namespace TemplateProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveProduct([FromBody] ProductBindingTarget target)
+        public async Task<IActionResult> SaveProduct(ProductBindingTarget target)
         {
             Product p = target.ToProduct();
             await _dataContext.Products.AddAsync(p);
@@ -46,7 +47,7 @@ namespace TemplateProject.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateProduct([FromBody] Product product)
+        public async Task UpdateProduct(Product product)
         {
             _dataContext.Products.Update(product);
             await _dataContext.SaveChangesAsync();
