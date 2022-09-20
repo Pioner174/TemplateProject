@@ -31,7 +31,12 @@ namespace TemplateProject
                 opts.EnableSensitiveDataLogging(true);
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+            services.Configure<MvcNewtonsoftJsonOptions>(opts =>
+            {
+                opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+
             services.Configure<JsonOptions>(opts =>
             {
                 opts.JsonSerializerOptions.IgnoreNullValues = true;
