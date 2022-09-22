@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using TemplateProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
+
 
 namespace TemplateProject
 {
@@ -47,6 +49,12 @@ namespace TemplateProject
                 opts.RespectBrowserAcceptHeader = true;
                 opts.ReturnHttpNotAcceptable = true;
             });
+
+            services.AddSwaggerGen(opts =>
+            {
+                opts.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp", Version = "v1" });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,10 +72,16 @@ namespace TemplateProject
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    context.Response.Redirect(@"/swagger/");
                 });
                 //endpoints.MapWebService();
                 endpoints.MapControllers();
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(opts =>
+            {
+                
+                opts.SwaggerEndpoint("/swagger/v1/swagger.json", "TemplateProject");
             });
             SeedData.SeedDatabase(context);
         }

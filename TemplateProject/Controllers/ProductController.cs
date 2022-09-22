@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TemplateProject.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 
 namespace TemplateProject.Controllers
@@ -26,6 +27,9 @@ namespace TemplateProject.Controllers
             
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> GetProduct(long id, [FromServices] ILogger<ProductsController> logger)
         {
             logger.LogDebug("GetProduct Action Invoked");
