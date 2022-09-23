@@ -33,56 +33,26 @@ namespace TemplateProject
                 opts.EnableSensitiveDataLogging(true);
             });
 
-            services.AddControllers().AddNewtonsoftJson().AddXmlSerializerFormatters();
-            services.Configure<MvcNewtonsoftJsonOptions>(opts =>
-            {
-                opts.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            });
-
-            services.Configure<JsonOptions>(opts =>
-            {
-                opts.JsonSerializerOptions.IgnoreNullValues = true;
-            });
-
-            services.Configure<MvcOptions>(opts => 
-            {
-                opts.RespectBrowserAcceptHeader = true;
-                opts.ReturnHttpNotAcceptable = true;
-            });
-
-            services.AddSwaggerGen(opts =>
-            {
-                opts.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApp", Version = "v1" });
-
-            });
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
+        public void Configure(IApplicationBuilder app, DataContext context)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseDeveloperExceptionPage();
 
+            app.UseStaticFiles();
             app.UseRouting();
-
-            app.UseMiddleware<TestMiddleware>();
+            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    context.Response.Redirect(@"/swagger/");
-                });
-                //endpoints.MapWebService();
                 endpoints.MapControllers();
-            });
-            app.UseSwagger();
-            app.UseSwaggerUI(opts =>
-            {
+                //endpoints.MapControllerRoute("Default",
+                //    "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
                 
-                opts.SwaggerEndpoint("/swagger/v1/swagger.json", "TemplateProject");
             });
+            
             SeedData.SeedDatabase(context);
         }
     }
