@@ -15,7 +15,18 @@ namespace TemplateProject.Controllers
 
         public async Task<IActionResult> Index(long id = 1)
         {
-            return View(await _dataContext.Products.FindAsync(id));
+            Product p =  await _dataContext.Products.FindAsync(id);
+
+            if(p.CategoryId == 1)
+            {
+                return View("Products", p);
+            }
+            return View(p);
+        }
+
+        public IActionResult Common()
+        {
+            return View();
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿@model Product
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <h6 class="bg-primary text-white text-center m-2 p-2">Продукты питания</h6>
+        <div class="m-2">
+            <table class="table table-sm table-striped table-bordered">
+                <tbody>
+                    <tr><th>Наименование</th><td>@Model.Name</td></tr>
+                    <tr><th>Цена</th><td>@Model.Price.ToString("c")</td></tr>
+                    <tr><th>Категория</th><td>@Model.CategoryId</td></tr>
+                    <tr><th>Поставщик</th><td>@Model.SupplierId</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
