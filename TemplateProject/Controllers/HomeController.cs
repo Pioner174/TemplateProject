@@ -28,5 +28,10 @@ namespace TemplateProject.Controllers
         {
             return View();
         }
+
+        public IActionResult List()
+        {
+            return View(_dataContext.Products);
+        }
     }
 }
