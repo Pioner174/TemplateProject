@@ -34,6 +34,7 @@ namespace TemplateProject
             });
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +51,7 @@ namespace TemplateProject
                 //endpoints.MapControllerRoute("Default",
                 //    "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
                 
             });
             
