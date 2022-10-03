@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using TemplateProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 
 namespace TemplateProject
@@ -35,6 +36,17 @@ namespace TemplateProject
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(opts =>
+            {
+                opts.Cookie.IsEssential = true;
+            });
+
+            services.Configure<RazorPagesOptions>(opts =>
+            {
+                opts.Conventions.AddPageRoute("/Index", "/extra/page/{id:long?}");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
