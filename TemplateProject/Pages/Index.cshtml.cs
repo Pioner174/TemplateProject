@@ -25,7 +25,7 @@ namespace TemplateProject.Pages
                 return RedirectToPage("NotFound");
             }
             return Page();
-           
+            
             
             
         }

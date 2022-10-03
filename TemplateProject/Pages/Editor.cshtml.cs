@@ -16,9 +16,16 @@ namespace TemplateProject.Pages
             _dataContext = dataContext;
         }
 
-        public async Task OnGetAsync(long id)
+        public async Task<IActionResult> OnGetAsync(long id)
         {
             Product = await _dataContext.Products.FindAsync(id);
+            if (Product == null)
+            {
+                return RedirectToPage("NotFound");
+            }
+            return Page();
+
+
         }
 
         public async Task<IActionResult> OnPostAsync(long id, decimal price)
