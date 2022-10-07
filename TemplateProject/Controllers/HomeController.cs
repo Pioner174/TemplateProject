@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TemplateProject.Models;
 
@@ -15,15 +16,19 @@ namespace TemplateProject.Controllers
 
         public async Task<IActionResult> Index(long id = 1)
         {
+            ViewBag.AveragePrice = await _dataContext.Products.AverageAsync(p => p.Price);
             Product p =  await _dataContext.Products.FindAsync(id);
 
-            if(p.CategoryId == 1)
-            {
-                return View("Products", p);
-            }
             return View(p);
         }
 
+
+        public async Task<IActionResult> Products(long id = 1)
+        {
+            Product p = await _dataContext.Products.FindAsync(id);
+
+            return View(p);
+        }
         public IActionResult Common()
         {
             return View();
