@@ -13,9 +13,14 @@ namespace TemplateProject.Components
             _cityData = cityData;
         }
 
-        public string Invoke()
+        public IViewComponentResult Invoke()
         {
-            return $"{_cityData.Cities.Count()} cities, {_cityData.Cities.Sum(c => c.Population)} people";
+            /// Возвращение html разметки
+            //return Content("This is a <h3><i>string</i></h3>");
+
+            ///Возвращение отображенгия
+            return View( new CityViewModel { Cities = _cityData.Cities.Count(), 
+            Population= _cityData.Cities.Sum(p=> p.Population)});
         }
     }
 }

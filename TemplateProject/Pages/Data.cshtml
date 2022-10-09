@@ -1,7 +1,6 @@
 ﻿@page
 @inject DataContext context;
-@*@model DataPageModel
-@using Microsoft.AspNetCore.Mvc.RazorPages*@
+
 
 
 <h5 class="bg-primary text-white text-center m-2 p-2">Categories</h5>
@@ -11,21 +10,8 @@
     }
 </ul>
 
+<div class=" bg-info text-white m-2 p-2">
+    <vc:city-summary/>
+</div>
 
-@*@functions{
-    public class DataPageModel: PageModel {
 
-        private DataContext _context;
-
-        public IEnumerable<Category> Categories { get; set; }
-
-        public DataPageModel(DataContext ctx){
-            _context = ctx;
-        }
-
-        public void OnGet(){
-            Categories = _context.Categories;
-        }
-
-    }
-}*@

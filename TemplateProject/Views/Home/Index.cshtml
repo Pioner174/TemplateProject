@@ -16,6 +16,6 @@ dex    @(((Model.Price / ViewBag.AveragePrice) * 100).ToString("F2"))% of averag
 
 @section Summary{
     <div class="bg-info text-white m-2 p-2">
-        @await Component.InvokeAsync("CitySummary")
+        <vc:city-summary />
     </div>
 }

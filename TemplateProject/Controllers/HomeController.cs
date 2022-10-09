@@ -17,6 +17,7 @@ namespace TemplateProject.Controllers
         public async Task<IActionResult> Index(long id = 1)
         {
             ViewBag.AveragePrice = await _dataContext.Products.AverageAsync(p => p.Price);
+            ViewBag.StringData = "sdsd";
             Product p =  await _dataContext.Products.FindAsync(id);
 
             return View(p);
