@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using System.Linq;
 using TemplateProject.Models;
 
@@ -19,8 +21,11 @@ namespace TemplateProject.Components
             //return Content("This is a <h3><i>string</i></h3>");
 
             ///Возвращение отображенгия
-            return View( new CityViewModel { Cities = _cityData.Cities.Count(), 
-            Population= _cityData.Cities.Sum(p=> p.Population)});
+            //return View( new CityViewModel { Cities = _cityData.Cities.Count(), 
+            //Population= _cityData.Cities.Sum(p=> p.Population)});
+
+            /// Возвращение фрагмента html разметки
+            return new HtmlContentViewComponentResult(new HtmlString("This is a <h3><i>string</i></h3>"));
         }
     }
 }
