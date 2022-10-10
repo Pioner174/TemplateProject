@@ -15,7 +15,7 @@ namespace TemplateProject.Components
             _cityData = cityData;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke( string themeName)
         {
             /// Возвращение html разметки
             //return Content("This is a <h3><i>string</i></h3>");
@@ -25,7 +25,19 @@ namespace TemplateProject.Components
             //Population= _cityData.Cities.Sum(p=> p.Population)});
 
             /// Возвращение фрагмента html разметки
-            return new HtmlContentViewComponentResult(new HtmlString("This is a <h3><i>string</i></h3>"));
+            //return new HtmlContentViewComponentResult(new HtmlString("This is a <h3><i>string</i></h3>"));
+
+            /// Испольхование данных марщрутизации
+            //if (RouteData.Values["controller"] != null)
+            //{
+            //    return "Controller Request";
+            //}
+            //else
+            //    return "Razor Page Request";
+
+            ViewBag.Theme = themeName;
+
+            return View(new CityViewModel { Cities = _cityData.Cities.Count(), Population = _cityData.Cities.Sum(c => c.Population)});
         }
     }
 }
