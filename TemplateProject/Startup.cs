@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TemplateProject.Models;
-using TemplateProject.TagHelpers;
+//using Microsoft.AspNetCore.Razor.TagHelpers;
+//using TemplateProject.TagHelpers;
 
 namespace TemplateProject
 {
@@ -43,8 +43,8 @@ namespace TemplateProject
 
             services.AddSingleton<CitiesData>();
 
-            services.AddTransient<ITagHelperComponent, TimeTagHelperComponent>();
-            services.AddTransient<ITagHelperComponent, TableFooterTagHelperComponent>();
+            //services.AddTransient<ITagHelperComponent, TimeTagHelperComponent>();
+            //services.AddTransient<ITagHelperComponent, TableFooterTagHelperComponent>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
