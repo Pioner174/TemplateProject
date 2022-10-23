@@ -24,10 +24,8 @@
     </div>    
     <div class="form-group">
         <label asp-for="Category"></label>
-        <select class="form-control" asp-for="CategoryId">
-            <option value="1">Продукты питания</option>
-            <option value="2">Спорт инвентарь</option>
-            <option value="3">Техника</option>
+        <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.Categories">
+
         </select>
     </div>    
     <div class="form-group">
