@@ -17,8 +17,8 @@ namespace TemplateProject.Controllers
 
         public async Task<IActionResult> Index(long id = 1)
         {
-            return View("Form", await _dataContext.Products.Include(p => p.Category).Include(p=>p.Supplier)
-                .FirstAsync(p=>p.ProductId==id));
+            return View("Form", await _dataContext.Products.Include(p => p.Category).Include(p => p.Supplier)
+                .FirstAsync(p => p.ProductId == id));
         }
 
         [HttpPost]
@@ -26,7 +26,7 @@ namespace TemplateProject.Controllers
         {
             foreach (string key in Request.Form.Keys.Where(k => !k.StartsWith("_")))
             {
-                TempData[key] = string.Join(", ",Request.Form[key]);
+                TempData[key] = string.Join(", ", Request.Form[key]);
             }
             return RedirectToAction(nameof(Results));
         }

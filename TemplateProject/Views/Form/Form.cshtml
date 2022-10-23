@@ -8,26 +8,26 @@
 @*Указание метода действия*@
 @*<form asp-action="submitform" method="post">*@
 
-@*Кнопка вне формы*@
+
 <form asp-action="submitform" method="post" id="htmlform">
     <div class="form-group">
-        <label>Id</label>
+        <label asp-for="ProductId"></label>
         <input class="form-control" asp-for="ProductId"/>
     </div>   
     <div class="form-group">
-        <label>Название</label>
+        <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name"/>
     </div>  
     <div class="form-group">
-        <label>Цена</label>
+        <label asp-for="Price"></label>
         <input class="form-control" asp-for="Price" />
     </div>    
     <div class="form-group">
-        <label>Категория</label>
+        <label asp-for="Category"></label>
         <input class="form-control" asp-for="Category.Name" />
     </div>    
     <div class="form-group">
-        <label>Поставщик</label>
+        <label asp-for="Supplier"></label>
         <input class="form-control" asp-for="Supplier.Name" />
     </div>    
     
