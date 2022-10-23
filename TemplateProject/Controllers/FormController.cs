@@ -7,6 +7,7 @@ using TemplateProject.Models;
 
 namespace TemplateProject.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class FormController : Controller
     {
         private DataContext _dataContext;
@@ -27,7 +28,7 @@ namespace TemplateProject.Controllers
         [HttpPost]
         public IActionResult SubmitForm()
         {
-            foreach (string key in Request.Form.Keys.Where(k => !k.StartsWith("_")))
+            foreach (string key in Request.Form.Keys)
             {
                 TempData[key] = string.Join(", ", Request.Form[key]);
             }

@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TemplateProject.Models;
-//using Microsoft.AspNetCore.Razor.TagHelpers;
-//using TemplateProject.TagHelpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using TemplateProject.TagHelpers;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Http;
 
 namespace TemplateProject
 {
@@ -45,10 +47,15 @@ namespace TemplateProject
 
             //services.AddTransient<ITagHelperComponent, TimeTagHelperComponent>();
             //services.AddTransient<ITagHelperComponent, TableFooterTagHelperComponent>();
+
+            services.Configure<AntiforgeryOptions>(opts =>
+            {
+                opts.HeaderName = "X-XSRF-TOKEN";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, DataContext context)
+        public void Configure(IApplicationBuilder app, DataContext context, IAntiforgery antiforgery)
         {
             app.UseDeveloperExceptionPage();
 
@@ -57,6 +64,15 @@ namespace TemplateProject
             app.UseSession();
 
             app.UseRouting();
+
+            app.Use(async (context, next) =>
+            {
+                if (!context.Request.Path.StartsWithSegments("/api"))
+                {
+                    context.Response.Cookies.Append("XSRF-TOKEN", antiforgery.GetAndStoreTokens(context).RequestToken,
+                        new CookieOptions { HttpOnly = false });
+                }
+            });
 
             app.UseEndpoints(endpoints =>
             {
