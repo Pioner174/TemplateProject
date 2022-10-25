@@ -11,11 +11,11 @@
         </div>   
         <div class="form-group">
             <label>Название</label>
-            <input class="form-control" asp-for="Product.Name"/>
+            <input class="form-control" asp-for="Product.Name" name="name"/>
         </div>  
         <div class="form-group">
             <label>Цена</label>
-            <input class="form-control" asp-for="Product.Price" />
+            <input class="form-control" asp-for="Product.Price" name="price"/>
         </div>    
         <div class="form-group">
             <label>Категория</label>
@@ -48,10 +48,11 @@
                 .FirstAsync(p => p.ProductId == id);
         }
 
-        public IActionResult OnPost(){
-            foreach(string key in Request.Form.Keys.Where(k=>!k.StartsWith("_"))){
-                TempData[key] = string.Join(", ", Request.Form[key]);
-            }
+        public IActionResult OnPost(string name, decimal price){
+
+            TempData["name param"] = name;
+            TempData["price param"] = price.ToString();
+
             return RedirectToPage("FormResults");
         }
     }

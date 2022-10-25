@@ -65,14 +65,6 @@ namespace TemplateProject
 
             app.UseRouting();
 
-            app.Use(async (context, next) =>
-            {
-                if (!context.Request.Path.StartsWithSegments("/api"))
-                {
-                    context.Response.Cookies.Append("XSRF-TOKEN", antiforgery.GetAndStoreTokens(context).RequestToken,
-                        new CookieOptions { HttpOnly = false });
-                }
-            });
 
             app.UseEndpoints(endpoints =>
             {
