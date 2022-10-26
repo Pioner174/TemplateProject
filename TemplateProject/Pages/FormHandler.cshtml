@@ -1,5 +1,6 @@
 ﻿@page "/pages/form/{id:long?}"
 @using Microsoft.EntityFrameworkCore
+@using System.Text.Json
 @model FormHandlerModel
 
 <div class="m-2">
@@ -11,11 +12,11 @@
         </div>   
         <div class="form-group">
             <label>Название</label>
-            <input class="form-control" asp-for="Product.Name" name="name"/>
+            <input class="form-control" asp-for="Product.Name"/>
         </div>  
         <div class="form-group">
             <label>Цена</label>
-            <input class="form-control" asp-for="Product.Price" name="price"/>
+            <input class="form-control" asp-for="Product.Price"/>
         </div>    
         <div class="form-group">
             <label>Категория</label>
@@ -41,6 +42,7 @@
             _context = context;
         }
 
+        [BindProperty]
         public Product Product { get; set; }
 
         public async Task OnGetAsync(long id = 1){
@@ -48,10 +50,10 @@
                 .FirstAsync(p => p.ProductId == id);
         }
 
-        public IActionResult OnPost(string name, decimal price){
+        public IActionResult OnPost()
+        {
 
-            TempData["name param"] = name;
-            TempData["price param"] = price.ToString();
+            TempData["product"] = JsonSerializer.Serialize(Product);
 
             return RedirectToPage("FormResults");
         }

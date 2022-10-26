@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TemplateProject.Models;
 
@@ -26,10 +27,10 @@ namespace TemplateProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubmitForm(string name, decimal price)
+        public IActionResult SubmitForm(Product product)
         {
-            TempData["name param"] = name;
-            TempData["price param"] = price.ToString();
+            TempData["product"] = JsonSerializer.Serialize(product);
+            
 
             return RedirectToAction(nameof(Results));
         }
