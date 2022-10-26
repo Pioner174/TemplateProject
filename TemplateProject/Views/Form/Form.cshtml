@@ -24,16 +24,8 @@
     </div>    
     <div class="form-group">
         <label asp-for="Category"></label>
-        <select class="form-control" asp-for="CategoryId" asp-items="@ViewBag.Categories">
-
-        </select>
+        <input class="form-control" asp-for="Category.Name"/>
     </div>    
-    <div class="form-group">
-        <label asp-for="Supplier"></label>
-        <textarea class="form-control" asp-for="Supplier.Name">
-
-        </textarea>
-    </div>    
-    
+        
 </form>
 <button form="htmlform" asp-action="submitform" type="submit" class="btn btn-primary mt-2">Submit (Вне формы)</button>
