@@ -23,13 +23,14 @@ namespace TemplateProject.Controllers
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
 
             return View("Form", await _dataContext.Products.Include(p => p.Category).Include(p => p.Supplier)
-                .FirstOrDefaultAsync(p => id == null ||  p.ProductId == id));
+                .FirstOrDefaultAsync(p => id == null || p.ProductId == id));
         }
 
         [HttpPost]
-        public IActionResult SubmitForm(Product product)
+        public IActionResult SubmitForm([Bind(Prefix = "Category")]Category category)
         {
-            TempData["product"] = JsonSerializer.Serialize(product);
+            
+            TempData["category"] = JsonSerializer.Serialize(category);
             
 
             return RedirectToAction(nameof(Results));
