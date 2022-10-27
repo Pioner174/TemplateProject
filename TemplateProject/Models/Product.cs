@@ -12,7 +12,7 @@ namespace TemplateProject.Models
 
         [Column (TypeName ="decimal(8,2)")]
         //[DisplayFormat(DataFormatString="{0:c2}", ApplyFormatInEditMode =true)]
-        [BindNever]
+        //[BindNever]
         public decimal Price { get; set; }
 
 
