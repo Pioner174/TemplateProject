@@ -18,7 +18,7 @@ namespace TemplateProject.Controllers
             _dataContext = dataContext;
         }
 
-        public async Task<IActionResult> Index(long? id)
+        public async Task<IActionResult> Index([FromQuery]long? id)
         {
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
 
