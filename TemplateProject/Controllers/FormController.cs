@@ -41,5 +41,10 @@ namespace TemplateProject.Controllers
         {
             return View(TempData);
         }
+
+        public string Header([FromHeader(Name ="Accept-Language")]string accept)
+        {
+            return $"Header: {accept}";
+        }
     }
 }
