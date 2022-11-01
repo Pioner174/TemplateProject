@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using TemplateProject.TagHelpers;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TemplateProject
 {
@@ -52,6 +53,9 @@ namespace TemplateProject
             {
                 opts.HeaderName = "X-XSRF-TOKEN";
             });
+
+            services.Configure<MvcOptions>(opts => opts.ModelBindingMessageProvider.
+            SetValueMustNotBeNullAccessor(value => "Пожалуйста, введите значение"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
