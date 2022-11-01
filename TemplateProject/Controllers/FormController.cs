@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using TemplateProject.Models;
 
@@ -18,23 +18,47 @@ namespace TemplateProject.Controllers
             _dataContext = dataContext;
         }
 
-        public async Task<IActionResult> Index([FromQuery]long? id)
+        public async Task<IActionResult> Index(long? id)
         {
             ViewBag.Categories = new SelectList(_dataContext.Categories, "CategoryId", "Name");
 
-            return View("Form", await _dataContext.Products.Include(p => p.Category).Include(p => p.Supplier)
-                .FirstOrDefaultAsync(p => id == null || p.ProductId == id));
+            return View("Form", await _dataContext.Products.
+                FirstOrDefaultAsync(p => id == null || p.ProductId == id));
         }
 
         [HttpPost]
-        public IActionResult SubmitForm([Bind("Name", "Category")]Product product)
+        public IActionResult SubmitForm(Product product)
         {
-            TempData["name"] = product.Name;
-            TempData["price"] = product.Price.ToString();
-            TempData["category name"] = product.Category.Name;
-            
 
-            return RedirectToAction(nameof(Results));
+            if (string.IsNullOrEmpty(product.Name))
+            {
+                ModelState.AddModelError(nameof(Product.Name), "Введите имя");
+            }
+
+            if (ModelState.GetValidationState(nameof(Product.Price)) == ModelValidationState.Valid && product.Price < 1)
+            {
+                ModelState.AddModelError(nameof(Product.Price), "Введите положительную цену");
+            }
+            
+            if(!_dataContext.Categories.Any(c=> c.CategoryId == product.CategoryId))
+            {
+                ModelState.AddModelError(nameof(Product.CategoryId), "Индентификатора не существует");
+            }
+            if(!_dataContext.Suppliers.Any(s=> s.SupplierId == product.SupplierId))
+            {
+                ModelState.AddModelError(nameof(Product.SupplierId), "Индентификатора не существует");
+            }
+
+            if (ModelState.IsValid)
+            {
+                TempData["name"] = product.Name;
+                TempData["price"] = product.Price.ToString();
+                TempData["categoryId"] = product.CategoryId.ToString();
+                TempData["supplierId"] = product.SupplierId.ToString();
+                return RedirectToAction(nameof(Results));
+            }
+            else
+                return View("Form");
         }
 
         public IActionResult Results()
@@ -42,16 +66,5 @@ namespace TemplateProject.Controllers
             return View(TempData);
         }
 
-        public string Header([FromHeader(Name ="Accept-Language")]string accept)
-        {
-            return $"Header: {accept}";
-        }
-
-        [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public Product Body([FromBody] Product model)
-        {
-            return model;
-        }
     }
 }
