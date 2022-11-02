@@ -30,15 +30,15 @@ namespace TemplateProject.Controllers
         public IActionResult SubmitForm(Product product)
         {
 
-            if (string.IsNullOrEmpty(product.Name))
-            {
-                ModelState.AddModelError(nameof(Product.Name), "Введите имя");
-            }
+            //if (string.IsNullOrEmpty(product.Name))
+            //{
+            //    ModelState.AddModelError(nameof(Product.Name), "Введите имя");
+            //}
 
-            if (ModelState.GetValidationState(nameof(Product.Price)) == ModelValidationState.Valid && product.Price < 1)
-            {
-                ModelState.AddModelError(nameof(Product.Price), "Введите положительную цену");
-            }
+            //if (ModelState.GetValidationState(nameof(Product.Price)) == ModelValidationState.Valid && product.Price < 1)
+            //{
+            //    ModelState.AddModelError(nameof(Product.Price), "Введите положительную цену");
+            //}
             
             if(ModelState.GetValidationState(nameof(Product.Name)) == ModelValidationState.Valid &&
                  ModelState.GetValidationState(nameof(Product.Price)) == ModelValidationState.Valid 
