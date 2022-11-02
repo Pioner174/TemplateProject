@@ -1,30 +1,45 @@
 ﻿@page "/pages/form/{id:long?}"
 @using Microsoft.EntityFrameworkCore
 @using System.Text.Json
+@using Microsoft.AspNetCore.Mvc.ModelBinding
 @model FormHandlerModel
 
+<partial name="_Validation"/>
 <div class="m-2">
     <h5 class="bg-primary text-white text-center p-2">Html Form</h5>
     <form asp-page="FormHandler" method="post" id="htmlform">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label>Id</label>
             <input class="form-control" asp-for="Product.ProductId"/>
         </div>   
         <div class="form-group">
             <label>Название</label>
+            <div>
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
             <input class="form-control" asp-for="Product.Name"/>
         </div>  
         <div class="form-group">
             <label>Цена</label>
+            <div>
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
             <input class="form-control" asp-for="Product.Price"/>
         </div>    
         <div class="form-group">
             <label>Категория</label>
-            <input class="form-control" asp-for="Product.Category.Name" />
+            <div>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <input class="form-control" asp-for="Product.CategoryId" />
         </div>    
         <div class="form-group">
             <label>Поставщик</label>
-            <input class="form-control" asp-for="Product.Supplier.Name" />
+            <div>
+                <span asp-validation-for="Product.SupplierId" class="text-danger"></span>
+            </div>
+            <input class="form-control" asp-for="Product.SupplierId" />
         </div>    
         
     </form>
@@ -45,21 +60,55 @@
         [BindProperty]
         public Product Product { get; set; }
 
-        [BindProperty(Name ="Product.Category")]
-        public Category Category { get; set; }
+        //[BindProperty(Name ="Product.Category")]
+        //public Category Category { get; set; }
 
         public async Task OnGetAsync(long id = 1){
-            Product = await _context.Products.Include(p => p.Category).Include(p => p.Supplier)
+            Product = await _context.Products
                 .FirstAsync(p => p.ProductId == id);
         }
 
         public IActionResult OnPost()
         {
 
-            TempData["product"] = JsonSerializer.Serialize(Product);
-            TempData["category"] = JsonSerializer.Serialize(Category);
+            if (string.IsNullOrEmpty(Product.Name))
+            {
+                ModelState.AddModelError("Product.Name", "Введите имя");
+            }
 
-            return RedirectToPage("FormResults");
+            if (ModelState.GetValidationState("Product.Price") == ModelValidationState.Valid && Product.Price < 1)
+            {
+                ModelState.AddModelError("Product.Price", "Введите положительную цену");
+            }
+
+            if (ModelState.GetValidationState("Product.Name") == ModelValidationState.Valid &&
+                 ModelState.GetValidationState("Product.Price") == ModelValidationState.Valid
+                && Product.Name.ToLower().StartsWith("small") && Product.Price > 100)
+            {
+                ModelState.AddModelError("", "Небольшие товары не могут стоить выше $100");
+            }
+
+            if (!_context.Categories.Any(c => c.CategoryId == Product.CategoryId))
+            {
+                ModelState.AddModelError("Product.CategoryId", "Индентификатора не существует");
+            }
+            if (!_context.Suppliers.Any(s => s.SupplierId == Product.SupplierId))
+            {
+                ModelState.AddModelError("Product.SupplierId", "Индентификатора не существует");
+            }
+
+            if (ModelState.IsValid)
+            {
+                TempData["name"] = Product.Name;
+                TempData["price"] = Product.Price.ToString();
+                TempData["categoryId"] = Product.CategoryId.ToString();
+                TempData["supplierId"] = Product.SupplierId.ToString();
+                return RedirectToPage("FormResults");
+            }
+            else
+                return Page();
+
+            
         }
     }
 }
