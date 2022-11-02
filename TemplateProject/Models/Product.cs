@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TemplateProject.Validation;
 
 namespace TemplateProject.Models
 {
+    [PharserAndPrice(Phrase = "Small", Price ="100")]
     public class Product
     {
         public long ProductId { get; set; }
@@ -19,10 +21,11 @@ namespace TemplateProject.Models
         [Range(1, 999999, ErrorMessage ="Пожалуйста, укажите значение в диапозоне от 1 до 999999")]
         public decimal Price { get; set; }
 
-
+        [PrimaryKey(ContextType = typeof(DataContext), DataType = typeof(Category))]
         public long CategoryId { get; set; }
         public Category Category { get; set; }
 
+        [PrimaryKey(ContextType = typeof(DataContext), DataType = typeof(Supplier))]
         public long SupplierId { get; set; }
 
         public Supplier Supplier { get; set; }

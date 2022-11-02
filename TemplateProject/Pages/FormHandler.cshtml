@@ -8,7 +8,7 @@
 <div class="m-2">
     <h5 class="bg-primary text-white text-center p-2">Html Form</h5>
     <form asp-page="FormHandler" method="post" id="htmlform">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label>Id</label>
             <input class="form-control" asp-for="Product.ProductId"/>
@@ -70,33 +70,6 @@
 
         public IActionResult OnPost()
         {
-
-            if (string.IsNullOrEmpty(Product.Name))
-            {
-                ModelState.AddModelError("Product.Name", "Введите имя");
-            }
-
-            if (ModelState.GetValidationState("Product.Price") == ModelValidationState.Valid && Product.Price < 1)
-            {
-                ModelState.AddModelError("Product.Price", "Введите положительную цену");
-            }
-
-            if (ModelState.GetValidationState("Product.Name") == ModelValidationState.Valid &&
-                 ModelState.GetValidationState("Product.Price") == ModelValidationState.Valid
-                && Product.Name.ToLower().StartsWith("small") && Product.Price > 100)
-            {
-                ModelState.AddModelError("", "Небольшие товары не могут стоить выше $100");
-            }
-
-            if (!_context.Categories.Any(c => c.CategoryId == Product.CategoryId))
-            {
-                ModelState.AddModelError("Product.CategoryId", "Индентификатора не существует");
-            }
-            if (!_context.Suppliers.Any(s => s.SupplierId == Product.SupplierId))
-            {
-                ModelState.AddModelError("Product.SupplierId", "Индентификатора не существует");
-            }
-
             if (ModelState.IsValid)
             {
                 TempData["name"] = Product.Name;
