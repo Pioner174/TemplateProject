@@ -40,6 +40,13 @@ namespace TemplateProject.Controllers
                 ModelState.AddModelError(nameof(Product.Price), "Введите положительную цену");
             }
             
+            if(ModelState.GetValidationState(nameof(Product.Name)) == ModelValidationState.Valid &&
+                 ModelState.GetValidationState(nameof(Product.Price)) == ModelValidationState.Valid 
+                && product.Name.ToLower().StartsWith("small") && product.Price > 100)
+            {
+                ModelState.AddModelError("", "Небольшие товары не могут стоить выше $100");
+            }
+
             if(!_dataContext.Categories.Any(c=> c.CategoryId == product.CategoryId))
             {
                 ModelState.AddModelError(nameof(Product.CategoryId), "Индентификатора не существует");
