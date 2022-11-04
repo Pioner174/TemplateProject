@@ -39,10 +39,10 @@ namespace TemplateProject
                 opts.Cookie.IsEssential = true;
             });
 
-            services.Configure<RazorPagesOptions>(opts =>
-            {
-                opts.Conventions.AddPageRoute("/Index", "/extra/page/{id:long?}");
-            });
+            //services.Configure<RazorPagesOptions>(opts =>
+            //{
+            //    opts.Conventions.AddPageRoute("/Index", "/extra/page/{id:long?}");
+            //});
 
             services.AddSingleton<CitiesData>();
 
@@ -72,10 +72,13 @@ namespace TemplateProject
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute("forms", "controllers/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapDefaultControllerRoute();
+
                 endpoints.MapRazorPages();
+
             });
 
             SeedData.SeedDatabase(context);
