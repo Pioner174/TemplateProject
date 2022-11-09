@@ -1,4 +1,5 @@
 ﻿@page "/pages/message"
+@using Microsoft.AspNetCore.Http
 @model MessageModel
 
 
@@ -23,7 +24,11 @@ else if (Model.Message is IDictionary<string, string> dict)
 }
 
 @functions{
+    [RequireHttps]
     public class MessageModel : PageModel{
         public object Message { get; set; } = "This is the Message Razor Page";
+
+        
+        }
     }
 }
