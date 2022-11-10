@@ -3,7 +3,7 @@ using TemplateProject.Filters;
 
 namespace TemplateProject.Controllers
 {
-    [HttpsOnly]
+    
     public class HomeController : Controller
     {
 
@@ -15,6 +15,12 @@ namespace TemplateProject.Controllers
         public IActionResult Secure()
         {
             return View("Message", "This is the Index action on the Home controller");
+        }
+
+        [ChangeArg]
+        public IActionResult Messages(string message1, string message2 = "None")
+        {
+            return View("Message", $"{message1}, {message2}");
         }
 
     }
