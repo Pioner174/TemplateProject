@@ -7,7 +7,7 @@ namespace TemplateProject.Controllers
     
     public class HomeController : Controller
     {
-
+        [ResultDiagnostics]
         public IActionResult Index()
         {
             return View("Message", "This is the Index action on the Home controller");
