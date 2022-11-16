@@ -5,12 +5,14 @@ using TemplateProject.Filters;
 
 namespace TemplateProject.Controllers
 {
-    
+    [Message("This is the controller-scoped filter")]
     public class HomeController : Controller
     {
         [ResultDiagnostics]
         //[GuidResponse]
         //[GuidResponse]
+        [Message("This is the first action-scoped filter")]
+        [Message("This is the second action-scoped filter")]
         public IActionResult Index()
         {
             return View("Message", "This is the Index action on the Home controller");
