@@ -9,6 +9,7 @@ using TemplateProject.TagHelpers;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TemplateProject.Filters;
 
 namespace TemplateProject
 {
@@ -56,6 +57,8 @@ namespace TemplateProject
 
             services.Configure<MvcOptions>(opts => opts.ModelBindingMessageProvider.
             SetValueMustNotBeNullAccessor(value => "Пожалуйста, введите значение"));
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

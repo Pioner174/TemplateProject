@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using TemplateProject.Filters;
 
 namespace TemplateProject.Controllers
@@ -8,6 +9,8 @@ namespace TemplateProject.Controllers
     public class HomeController : Controller
     {
         [ResultDiagnostics]
+        [GuidResponse]
+        [GuidResponse]
         public IActionResult Index()
         {
             return View("Message", "This is the Index action on the Home controller");
@@ -29,6 +32,22 @@ namespace TemplateProject.Controllers
             if (context.ActionArguments.ContainsKey("message1"))
             {
                 context.ActionArguments["message1"] = "New message";
+            }
+        }
+
+        [RangeException]
+        public ViewResult GenerateException(int? id)
+        {
+            if(id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }else if(id > 10)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+            else
+            {
+                return View("Message", $"The value is {id}");
             }
         }
     }
