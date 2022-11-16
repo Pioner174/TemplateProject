@@ -9,8 +9,8 @@ namespace TemplateProject.Controllers
     public class HomeController : Controller
     {
         [ResultDiagnostics]
-        [GuidResponse]
-        [GuidResponse]
+        //[GuidResponse]
+        //[GuidResponse]
         public IActionResult Index()
         {
             return View("Message", "This is the Index action on the Home controller");
