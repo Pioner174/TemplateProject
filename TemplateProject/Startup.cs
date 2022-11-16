@@ -58,7 +58,7 @@ namespace TemplateProject
             services.Configure<MvcOptions>(opts => opts.ModelBindingMessageProvider.
             SetValueMustNotBeNullAccessor(value => "Пожалуйста, введите значение"));
 
-            
+            services.AddScoped<GuidResponseAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
