@@ -15,7 +15,7 @@ namespace TemplateProject.Models
         [Display(Name = "Название")]
         public string Name { get; set; }
 
-        [Column (TypeName ="decimal(8,2)")]
+        [Column(TypeName = "decimal(8,2)")]
         //[DisplayFormat(DataFormatString="{0:c2}", ApplyFormatInEditMode =true)]
         //[BindNever]
         [Required(ErrorMessage ="Пожулуйста введите цену")]

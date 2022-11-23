@@ -74,5 +74,22 @@ namespace TemplateProject.Controllers
             }
             return View("ProductEditor", ViewModelFactory.Edit(product, Categories, Suppliers));
         }
+
+        public async Task<IActionResult> Delete(long id)
+        {
+            ProductViewModel model = ViewModelFactory.Delete(await _dataContext.Products.FindAsync(id),
+                Categories, Suppliers);
+
+            return View("ProductEditor", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Product product)
+        {
+            _dataContext.Products.Remove(product);
+            await _dataContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
