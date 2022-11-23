@@ -51,5 +51,28 @@ namespace TemplateProject.Controllers
             }
             return View("ProductEditor", ViewModelFactory.Create(new Product(), Categories, Suppliers));
         }
+
+        public async Task<IActionResult> Edit(long id)
+        {
+            Product p = await _dataContext.Products.FindAsync(id);
+
+            ProductViewModel model = ViewModelFactory.Edit(p, Categories, Suppliers);
+
+            return View("ProductEditor",model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromForm] Product product)
+        {
+            if(ModelState.IsValid)
+            {
+                product.Category = default;
+                product.Supplier = default;
+                _dataContext.Products.Update(product);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View("ProductEditor", ViewModelFactory.Edit(product, Categories, Suppliers));
+        }
     }
 }

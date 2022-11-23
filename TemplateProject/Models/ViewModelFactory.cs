@@ -25,5 +25,18 @@ namespace TemplateProject.Models
             return new ProductViewModel { Product = p, Categories= categories,
                 Suppliers = suppliers };
         }
+
+        public static ProductViewModel Edit(Product product, IEnumerable<Category> categories,
+             IEnumerable<Supplier> suppliers)
+        {
+            return new ProductViewModel
+            {
+                Product = product,
+                Suppliers = suppliers,
+                Categories = categories,
+                Theme = "warning",
+                Action = "Edit"
+            };
+        }
     }
 }
