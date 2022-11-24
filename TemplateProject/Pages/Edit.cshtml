@@ -1,5 +1,8 @@
 ﻿@page "/page/edit/{id}"
 @model EditModel
+@{
+    Layout = "_Layout";
+}
 
 <div class="m-2">
     <partial name="_ProductEditor" model="@Model.ViewModel"/>
@@ -14,11 +17,13 @@
         {
             Product p = await this.DataContext.Products.FindAsync(id);
 
-            ViewModel = ViewModelFactory.Create(new Product(), Categories, Suppliers);
+            ViewModel = ViewModelFactory.Edit(p, Categories, Suppliers);
         }
 
         public async Task<IActionResult> OnPostAsync([FromForm] Product product)
         {
+            await CheckNewCategory(product);
+
             if (ModelState.IsValid)
             {
                 product.ProductId = default;
