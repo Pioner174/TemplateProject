@@ -1,7 +1,7 @@
 ﻿@model Product
 <script type="text/javascript">
     $(document).ready(()=> {
-        const catGroup=$(#categoryGroup).hide();
+        const catGroup=$("#categoryGroup").hide();
         $("select[name='Product.CategoryId']").on("change", (event)=>
         event.target.value === "-1" ? catGroup.show() : catGroup.hide());
     });
